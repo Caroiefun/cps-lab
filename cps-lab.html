@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPS Lab - Compétences Psychosociales</title>
+    <style>
+        /* Reset et styles de base */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(135deg, #4a6fa5, #166088);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
+        }
+        h1, h2, h3 {
+            color: #166088;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #4a6fa5, #166088);
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            margin: 10px 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background: linear-gradient(135deg, #166088, #0d47a1);
+            transform: translateY(-2px);
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .exercice {
+            border-left: 5px solid #4a6fa5;
+            padding-left: 20px;
+            margin: 25px 0;
+            background: #f9f9f9;
+            border-radius: 0 10px 10px 0;
+        }
+        textarea, input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        .resultat {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+        .feedback {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        .cycle-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .cycle-btn {
+            flex: 1 1 200px;
+            min-width: 150px;
+        }
+        .hidden {
+            display: none;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #f1f1f1;
+            margin-top: 50px;
+        }
+        /* Couleurs par catégorie de CPS */
+        .cognitive { border-left-color: #1976d2; }
+        .emotionnelle { border-left-color: #d32f2f; }
+        .sociale { border-left-color: #7b1fa2; }
+        /* Styles pour les exercices interactifs */
+        .drag-drop {
+            min-height: 100px;
+            border: 2px dashed #ccc;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            background: #f0f8ff;
+        }
+        .drag-item {
+            padding: 10px;
+            margin: 5px;
+            background: #4a6fa5;
+            color: white;
+            border-radius: 4px;
+            cursor: move;
+            display: inline-block;
+        }
+        .quiz-options {
+            margin: 15px 0;
+        }
+        .quiz-option {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f8ff;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .quiz-option:hover {
+            background: #e3f2fd;
+        }
+        .correct { background: #c8e6c9 !important; }
+        .incorrect { background: #ffcdd2 !important; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🧠 CPS Lab</h1>
+            <p>Un laboratoire pour explorer et développer tes compétences psychosociales</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Navigation -->
+        <div class="section">
+            <h2>Bienvenue sur CPS Lab</h2>
+            <p>Choisis une rubrique pour commencer :</p>
+            <div class="cycle-buttons">
+                <a href="#mes-cps" class="btn cycle-btn">Mes CPS (Auto-formation)</a>
+                <a href="#cps-classe" class="btn cycle-btn">CPS en classe (Pour les pros)</a>
+            </div>
+        </div>
+
+        <!-- Rubrique 1 : Mes CPS -->
+        <section id="mes-cps" class="section">
+            <div class="card">
+                <h2>📌 Mes CPS</h2>
+                <p>Auto-évalue et renforce tes compétences psychosociales avec des exercices interactifs.</p>
+
+                <!-- Exercice 1 : QCM sur les CPS -->
+                <div class="exercice cognitive">
+                    <h3>1. Quiz : Évalue tes CPS (15 questions)</h3>
+                    <p>Réponds à ces questions pour identifier tes forces et axes de progression.</p>
+
+                    <div id="quiz">
+                        <!-- Question 1 -->
+                        <div class="question">
+                            <p><strong>1/15</strong> Quand tu ressens une émotion forte (colère, tristesse), que fais-tu généralement ?</p>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectAnswer('q1', 'A')">A) Je l’ignore et passe à autre chose.</div>
+                                <div class="quiz-option" onclick="selectAnswer('q1', 'B')">B) J’essaie de comprendre pourquoi je la ressens.</div>
+                                <div class="quiz-option" onclick="selectAnswer('q1', 'C')">C) Je la laisse m’envahir sans agir.</div>
+                            </div>
+                        </div>
+
+                        <!-- Question 2 -->
+                        <div class="question">
+                            <p><strong>2/15</strong> Quand tu dois prendre une décision importante, comment fais-tu ?</p>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectAnswer('q2', 'A')">A) Je demande l’avis des autres sans réfléchir moi-même.</div>
+                                <div class="quiz-option" onclick="selectAnswer('q2', 'B')">B) Je liste les pour/contre et écoute mon ressenti.</div>
+                                <div class="quiz-option" onclick="selectAnswer('q2', 'C')">C) Je choisis au hasard ou sous le coup de l’impulsion.</div>
+                            </div>
+                        </div>
+
+                        <!-- Question 3 -->
+                        <div class="question">
+                            <p><strong>3/15</strong> Dans un groupe, comment te sens-tu ?</p>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectAnswer('q3', 'A')">A) Je reste en retrait par peur du jugement.</div>
+                                <div class="quiz-option" onclick="selectAnswer('q3', 'B')">B) J’exprime mes idées tout en écoutant les autres.</div>
+                                <div class="quiz-option" onclick="selectAnswer('q3', 'C')">C) Je domine la conversation sans écouter.</div>
+                            </div>
+                        </div>
+
+                        <!-- Question 4 : Échelle de Likert -->
+                        <div class="question">
+                            <p><strong>4/15</strong> À quel point te sens-tu capable d’identifier tes émotions sur une échelle de 1 à 5 ?</p>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectAnswer('q4', '1')">1 (Pas du tout)</div>
+                                <div class="quiz-option" onclick="selectAnswer('q4', '2')">2</div>
+                                <div class="quiz-option" onclick="selectAnswer('q4', '3')">3</div>
+                                <div class="quiz-option" onclick="selectAnswer('q4', '4')">4</div>
+                                <div class="quiz-option" onclick="selectAnswer('q4', '5')">5 (Tout à fait)</div>
+                            </div>
+                        </div>
+
+                        <!-- Question 5 : Texte à trous -->
+                        <div class="question">
+                            <p><strong>5/15</strong> Complète la phrase : "Quand je suis en conflit avec quelqu’un, je commence par...</p>
+                            <input type="text" id="q5" placeholder="Ex: écouter son point de vue, respirer profondément...">
+                        </div>
+
+                        <!-- Question 6 : Mise en situation -->
+                        <div class="question">
+                            <p><strong>6/15</strong> <em>Mise en situation</em> : Tu es en réunion et un collègue critique ton idée devant tout le monde. Que fais-tu ?</p>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectAnswer('q6', 'A')">A) Je me tais et rumine après la réunion.</div>
+                                <div class="quiz-option" onclick="selectAnswer('q6', 'B')">B) Je demande des précisions sur ses critiques pour comprendre.</div>
+                                <div class="quiz-option" onclick="selectAnswer('q6', 'C')">C) Je contre-attaque immédiatement.</div>
+                            </div>
+                        </div>
+
+                        <!-- Question 7 : QCM sur les besoins psychologiques -->
+                        <div class="question">
+                            <p><strong>7/15</strong> Lequel de ces besoins <strong>n’est pas</strong> un besoin psychologique fondamental ?</p>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectAnswer('q7', 'A')">A) Besoin de reconnaissance</div>
+                                <div class="quiz-option" onclick="selectAnswer('q7', 'B')">B) Besoin d’un smartphone dernier cri</div>
+                                <div class="quiz-option" onclick="selectAnswer('q7', 'C')">C) Besoin d’affiliation sociale</div>
+                            </div>
+                        </div>
+
+                        <!-- Question 8 : Glisser-déposer (exemple simplifié) -->
+                        <div class="question">
+                            <p><strong>8/15</strong> Classe ces étapes de résolution de problème dans l’ordre :</p>
+                            <div class="drag-drop" id="q8-drop">
+                                <div class="drag-item" draggable="true" ondragstart="drag(event)">Analyser les solutions</div>
+                                <div class="drag-item" draggable="true" ondragstart="drag(event)">Mettre en œuvre la solution</div>
+                                <div class="drag-item" draggable="true" ondragstart="drag(event)">Observer le problème</div>
+                                <div class="drag-item" draggable="true" ondragstart="drag(event)">Choisir une solution</div>
+                            </div>
+                            <div id="q8-answer" style="display: none;">
+                                <div class="drag-item">Observer le problème</div>
+                                <div class="drag-item">Analyser les solutions</div>
+                                <div class="drag-item">Choisir une solution</div>
+                                <div class="drag-item">Mettre en œuvre la solution</div>
+                            </div>
+                            <button onclick="checkOrder('q8')" class="btn" style="margin-top: 10px;">Vérifier</button>
+                        </div>
+
+                        <!-- Questions 9 à 15 (exemples) -->
+                        <div class="question">
+                            <p><strong>9/15</strong> Quel est l’inverse de l’<strong>évitement expérientiel</strong> ?</p>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectAnswer('q9', 'A')">A) La défusion cognitive</div>
+                                <div class="quiz-option" onclick="selectAnswer('q9', 'B')">B) L’acceptation expérientielle</div>
+                                <div class="quiz-option" onclick="selectAnswer('q9', 'C')">C) La rumination</div>
+                            </div>
+                        </div>
+
+                        <div class="question">
+                            <p><strong>10/15</strong> <em>Question ouverte</em> : Donne un exemple de <strong>but concordant</strong> pour toi.</p>
+                            <textarea id="q10" placeholder="Ex: Apprendre à jouer de la guitare pour mon plaisir..."></textarea>
+                        </div>
+
+                        <!-- Bouton pour soumettre le quiz -->
+                        <button onclick="evaluerCPS()" class="btn" style="margin-top: 20px;">Voir mes résultats</button>
+
+                        <!-- Résultats -->
+                        <div id="resultat-quiz" class="resultat">
+                            <h4>📊 Tes résultats :</h4>
+                            <div id="resultat-texte"></div>
+                            <div id="conseils"></div>
+                            <div id="feedback-detaille" class="feedback"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exercice 2 : Défusion cognitive -->
+                <div class="exercice emotionnelle">
+                    <h3>2. Exercice : Défusion cognitive (C1.2)</h3>
+                    <p>Écris une pensée automatique négative qui te traverse souvent, puis reformule-la en pensée "défusionnée".</p>
+                    <p><em>Exemple : "Je ne vais pas y arriver" → "J’ai la pensée que je n’y arriverai pas."</em></p>
+                    <textarea id="pensee-negative" placeholder="Ex: 'Je suis nul(le) en public...'"></textarea>
+                    <button onclick="defusionner()" class="btn">Reformuler ma pensée</button>
+                    <div id="pensee-reformulee" class="resultat"></div>
+                </div>
+
+                <!-- Exercice 3 : Résolution de problème (C2.3) -->
+                <div class="exercice cognitive">
+                    <h3>3. Exercice : Résoudre un problème (C2.3)</h3>
+                    <p><em>Mise en situation</em> : Tu as un examen important demain, mais tu es submergé(e) par le stress et tu n’arrives pas à te concentrer. Que fais-tu ?</p>
+                    <p>Utilise la méthode <strong>AADA</strong> (Attention/Analyse/Décision/Action) pour décrire ta démarche :</p>
+                    <textarea id="aada-attention" placeholder="1. Attention : Qu’observes-tu ? (émotions, pensées, environnement)"></textarea>
+                    <textarea id="aada-analyse" placeholder="2. Analyse : Quelles sont les solutions possibles ?"></textarea>
+                    <textarea id="aada-decision" placeholder="3. Décision : Quelle solution choisis-tu ?"></textarea>
+                    <textarea id="aada-action" placeholder="4. Action : Que fais-tu concrètement ?"></textarea>
+                    <button onclick="analyserAADA()" class="btn">Valider ma démarche</button>
+                    <div id="aada-feedback" class="resultat"></div>
+                </div>
+
+                <!-- Exercice 4 : Gérer ses impulsions (C2.2) -->
+                <div class="exercice cognitive">
+                    <h3>4. Exercice : Gérer une impulsion (C2.2)</h3>
+                    <p><em>Mise en situation</em> : Tu es en train de travailler sur un projet important, mais tu as une envie soudaine de vérifier tes réseaux sociaux. Que fais-tu ?</p>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="selectAnswer('impulsion', 'A')">A) Je cède à l’impulsion et vérifie mes réseaux.</div>
+                        <div class="quiz-option" onclick="selectAnswer('impulsion', 'B')">B) Je note mon envie sur un papier et reprends mon travail.</div>
+                        <div class="quiz-option" onclick="selectAnswer('impulsion', 'C')">C) Je me lève pour boire un verre d’eau et revenir concentré(e).</div>
+                    </div>
+                    <div id="impulsion-feedback" class="feedback hidden">
+                        <p><strong>Feedback</strong> :</p>
+                        <p id="impulsion-texte"></p>
+                    </div>
+                </div>
+
+                <!-- Ressources théoriques -->
+                <div class="exercice">
+                    <h3>📚 Ressources théoriques</h3>
+                    <p><strong>Les 12 besoins psychologiques</strong> (Tome I, p. 51) :</p>
+                    <ul>
+                        <li><strong>Cognitifs</strong> : Découverte, cohérence, transcendance.</li>
+                        <li><strong>Affectifs/relationnels</strong> : Amour, affiliation sociale, reconnaissance.</li>
+                        <li><strong>Comportementaux</strong> : Liberté, compétence, réalisation.</li>
+                        <li><strong>Psychocorporels</strong> : Subsistance, stimulation, repos.</li>
+                    </ul>
+                    <p><strong>Les 4 étapes AADA</strong> (Tome I, p. 31) :</p>
+                    <ol>
+                        <li><strong>Attention</strong> : Observer la situation.</li>
+                        <li><strong>Analyse</strong> : Identifier les solutions.</li>
+                        <li><strong>Décision</strong> : Choisir la meilleure option.</li>
+                        <li><strong>Action</strong> : Mettre en œuvre et ajuster.</li>
+                    </ol>
+                    <p>🔗 <a href="https://scholavie.fr/" target="_blank">Site ScholaVie</a> pour des outils pédagogiques.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rubrique 2 : CPS en classe -->
+        <section id="cps-classe" class="section">
+            <div class="card">
+                <h2>👩‍🏫 CPS en classe</h2>
+                <p>Activités clés en main pour travailler les CPS avec tes élèves, organisées par cycle.</p>
+
+                <!-- Filtre par cycle -->
+                <div class="cycle-buttons">
+                    <button class="btn cycle-btn" onclick="showCycle('maternelle')">Maternelle</button>
+                    <button class="btn cycle-btn" onclick="showCycle('primaire')">Primaire</button>
+                    <button class="btn cycle-btn" onclick="showCycle('college')">Collège</button>
+                    <button class="btn cycle-btn" onclick="showCycle('lycee')">Lycée</button>
+                </div>
+
+                <!-- Maternelle -->
+                <div id="maternelle" class="cycle-content">
+                    <h3>🔹 Cycle : Maternelle (3-6 ans)</h3>
+
+                    <!-- Apports théoriques -->
+                    <div class="exercice sociale">
+                        <h4>Apports théoriques</h4>
+                        <p><strong>Compétences travaillées</strong> :</p>
+                        <ul>
+                            <li><strong>S1.3</strong> : Développer des liens et comportements prosociaux.</li>
+                            <li><strong>E1.2</strong> : Identifier ses émotions.</li>
+                            <li><strong>C1.1</strong> : Connaissance de soi.</li>
+                        </ul>
+                        <p><strong>Objectifs</strong> :</p>
+                        <ul>
+                            <li>Favoriser l’expression des émotions.</li>
+                            <li>Encourager la coopération et l’empathie.</li>
+                            <li>Développer l’autonomie.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Activité 1 : Le domino humain -->
+                    <div class="exercice sociale">
+                        <h4>1. Activité : "Le domino humain" (S1.3)</h4>
+                        <p><strong>Objectifs</strong> : Renforcer le sentiment d’appartenance et la connaissance de soi.</p>
+                        <p><strong>Matériel</strong> : Aucun (espace pour se déplacer).</p>
+                        <p><strong>Durée</strong> : 15-20 min.</p>
+                        <p><strong>Déroulement</strong> :</p>
+                        <ol>
+                            <li>Les enfants se placent en cercle.</li>
+                            <li>Chaque enfant dit : "Je me place à côté de [prénom] parce que, comme lui/elle, j’aime [ex: les chats]."</li>
+                            <li>Discussion collective sur les points communs/différences.</li>
+                        </ol>
+                        <p><strong>Variante</strong> : Version "qualités" (chaque enfant cite une qualité de son voisin).</p>
+                        <p><strong>Lien avec les CPS</strong> : <strong>S1.3</strong> (liens prosociaux) et <strong>C1.1</strong> (connaissance de soi).</p>
+                    </div>
+
+                    <!-- Activité 2 : La statue musicale -->
+                    <div class="exercice emotionnelle">
+                        <h4>2. Activité : "La statue musicale" (C2.2)</h4>
+                        <p><strong>Objectifs</strong> : Travailler l’autocontrôle et l’écoute.</p>
+                        <p><strong>Matériel</strong> : Musique ou instrument.</p>
+                        <p><strong>Durée</strong> : 10-15 min.</p>
+                        <p><strong>Déroulement</strong> :</p>
+                        <ol>
+                            <li>Les enfants dansent au son de la musique.</li>
+                            <li>Quand la musique s’arrête, ils doivent s’immobiliser comme des statues.</li>
+                            <li>Féliciter les enfants pour leur capacité à "arrêter leur moteur".</li>
+                        </ol>
+                        <p><strong>Lien avec les CPS</strong> : <strong>C2.2</strong> (gestion des impulsions).</p>
+                    </div>
+
+                    <!-- Activité 3 : Le visage des émotions -->
+                    <div class="exercice emotionnelle">
+                        <h4>3. Activité : "Le visage des émotions" (E1.2)</h4>
+                        <p><strong>Objectifs</strong> : Identifier et nommer ses émotions.</p>
+                        <p><strong>Matériel</strong> : Miroirs, feuilles avec visages vierges, crayons.</p>
+                        <p><strong>Durée</strong> : 20 min.</p>
+                        <p><strong>Déroulement</strong> :</p>
+                        <ol>
+                            <li>Montrer aux enfants des images de visages exprimant différentes émotions.</li>
+                            <li>Leur demander de mimer ces émotions et de les nommer.</li>
+                            <li>Dessiner un visage avec l’émotion qu’ils ressentent aujourd’hui.</li>
+                        </ol>
+                        <p><strong>Lien avec les CPS</strong> : <strong>E1.2</strong> (identifier ses émotions).</p>
+                    </div>
+
+                    <!-- Exercices en ligne pour enfants -->
+                    <div class="exercice">
+                        <h4>💻 Exercices en ligne pour les enfants (Maternelle)</h4>
+
+                        <!-- Exercice 1 : Associer émotion et visage -->
+                        <div class="question">
+                            <p><strong>1/10</strong> Associe chaque émotion à son visage :</p>
+                            <div class="drag-drop" id="emotion-drop">
+                                <div class="drag-item" draggable="true" ondragstart="drag(event)">😊</div>
+                                <div class="drag-item" draggable="true" ondragstart="drag(event)">😢</div>
+                                <div class="drag-item" draggable="true" ondragstart="drag(event)">😠</div>
+                            </div>
+                            <div style="margin-top: 10px;">
+                                <div style="display: inline-block; margin: 10px;">
+                                    <p>Joie → <span id="emotion-joie" class="drag-drop" style="display: inline-block; min-width: 50px;"></span></p>
+                                </div>
+                                <div style="display: inline-block; margin: 10px;">
+                                    <p>Tristesse → <span id="emotion-tristesse" class="drag-drop" style="display: inline-block; min-width: 50px;"></span></p>
+                                </div>
+                                <div style="display: inline-block; margin: 10px;">
+                                    <p>Colère → <span id="emotion-colere" class="drag-drop" style="display: inline-block; min-width: 50px;"></span></p>
+                                </div>
+                            </div>
+                            <button onclick="checkEmotions()" class="btn" style="margin-top: 10px;">Vérifier</button>
+                            <div id="emotion-feedback" class="feedback hidden"></div>
+                        </div>
+
+                        <!-- Exercice 2 : QCM simple -->
+                        <div class="question">
+                            <p><strong>2/10</strong> Que fais-tu quand tu es triste ?</p>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectAnswer('maternelle2', 'A')">A) Je pleure tout seul.</div>
+                                <div class="quiz-option" onclick="selectAnswer('maternelle2', 'B')">B) Je dis à un adulte que je suis triste.</div>
+                                <div class="quiz-option" onclick="selectAnswer('maternelle2', 'C')">C) Je tape sur mon camarade.</div>
+                            </div>
+                            <div id="maternelle2-feedback" class="feedback hidden"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Primaire -->
+                <div id="primaire" class="cycle-content hidden">
+                    <h3>🔹 Cycle : Primaire (6-11 ans)</h3>
+
+                    <!-- Apports théoriques -->
+                    <div class="exercice">
+                        <h4>Apports théoriques</h4>
+                        <p><strong>Compétences travaillées</strong> :</p>
+                        <ul>
+                            <li><strong>C1.2</strong> : Penser de façon critique.</li>
+                            <li><strong>E2.1</strong> : Exprimer ses émotions.</li>
+                            <li><strong>S1.1</strong> : Communiquer de façon efficace.</li>
+                            <li><strong>C2.3</strong> : Résoudre des problèmes.</li>
+                        </ul>
+                        <p><strong>Objectifs</strong> :</p>
+                        <ul>
+                            <li>Développer l’esprit critique et la créativité.</li>
+                            <li>Apprendre à exprimer ses émotions et besoins.</li>
+                            <li>Renforcer la coopération et la résolution de conflits.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Activité 1 : Les trois enfants et quatre triangles -->
+                    <div class="exercice cognitive">
+                        <h4>1. Activité : "Trois enfants et quatre triangles" (C1.1/C1.2)</h4>
+                        <p><strong>Objectifs</strong> : Accroître la connaissance de soi et l’esprit critique.</p>
+                        <p><strong>Matériel</strong> : Feuille avec 4 triangles (voir Tome I, p. 43).</p>
+                        <p><strong>Durée</strong> : 30 min.</p>
+                        <p><strong>Déroulement</strong> :</p>
+                        <ol>
+                            <li>Former des groupes de 3 enfants.</li>
+                            <li>Chaque enfant remplit un triangle avec une caractéristique qui le rend unique.</li>
+                            <li>Ensemble, ils trouvent 3 caractéristiques communes à écrire dans le triangle central.</li>
+                            <li>Partage en grand groupe des similitudes/différences.</li>
+                        </ol>
+                        <p><strong>Lien avec les CPS</strong> : <strong>C1.1</strong> (connaissance de soi) et <strong>C1.2</strong> (esprit critique).</p>
+                    </div>
+
+                    <!-- Activité 2 : Le message clair -->
+                    <div class="exercice sociale">
+                        <h4>2. Activité : "Le message clair" (S1.1/E2.1)</h4>
+                        <p><strong>Objectifs</strong> : Apprendre à communiquer ses émotions et besoins.</p>
+                        <p><strong>Matériel</strong> : Fiches avec structure "Je me sens... quand... parce que... J’aimerais...".</p>
+                        <p><strong>Durée</strong> : 45 min.</p>
+                        <p><strong>Déroulement</strong> :</p>
+                        <ol>
+                            <li>Expliquer la structure du message clair.</li>
+                            <li>Donner des exemples (ex: "Je me sens triste quand on m’interrompt, parce que j’ai besoin d’être écouté. J’aimerais qu’on me laisse finir.").</li>
+                            <li>Faire jouer des scènes en binôme (un enfant exprime un message clair, l’autre écoute et reformule).</li>
+                        </ol>
+                        <p><strong>Lien avec les CPS</strong> : <strong>S1.1</strong> (communication efficace) et <strong>E2.1</strong> (expression des émotions).</p>
+                    </div>
+
+                    <!-- Activité 3 : La roue des besoins -->
+                    <div class="exercice cognitive">
+                        <h4>3. Activité : "La roue des besoins" (C1.3/C2.1)</h4>
+                        <p><strong>Objectifs</strong> : Identifier ses besoins et formuler des buts concordants.</p>
+                        <p><strong>Matériel</strong> : Roue des besoins à imprimer (Tome I, p. 58).</p>
+                        <p><strong>Durée</strong> : 40 min.</p>
+                        <p><strong>Déroulement</strong> :</p>
+                        <ol>
+                            <li>Expliquer les 12 besoins psychologiques.</li>
+                            <li>Chaque enfant remplit sa roue en notant son niveau de satisfaction (0-10).</li>
+                            <li>En groupe, discuter : "Quel besoin aimerais-tu satisfaire davantage ? Comment ?".</li>
+                        </ol>
+                        <p><strong>Lien avec les CPS</strong> : <strong>C1.3</strong> (besoins/valeurs) et <strong>C2.1</strong> (buts concordants).</p>
+                    </div>
+
+                    <!-- Exercices en ligne pour primaire -->
+                    <div class="exercice">
+                        <h4>💻 Exercices en ligne pour les élèves (Primaire)</h4>
+
+                        <!-- Exercice 1 : QCM sur les besoins -->
+                        <div class="question">
+                            <p><strong>1/10</strong> Quel besoin est satisfait quand tu joues avec tes amis ?</p>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectAnswer('primaire1', 'A')">A) Besoin de repos</div>
+                                <div class="quiz-option" onclick="selectAnswer('primaire1', 'B')">B) Besoin d’affiliation sociale</div>
+                                <div class="quiz-option" onclick="selectAnswer('primaire1', 'C')">C) Besoin de transcendance</div>
+                            </div>
+                            <div id="primaire1-feedback" class="feedback hidden"></div>
+                        </div>
+
+                        <!-- Exercice 2 : Texte à trous -->
+                        <div class="question">
+                            <p><strong>2/10</strong> Complète la phrase :</p>
+                            <p>"Quand je suis en colère, je peux utiliser la technique du ______ pour me calmer."</p>
+                            <input type="text" id="primaire2" placeholder="Ex: message clair, respiration...">
+                            <button onclick="checkTexteTrous('primaire2', 'message clair')" class="btn">Vérifier</button>
+                            <div id="primaire2-feedback" class="feedback hidden"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Collège -->
+                <div id="college" class="cycle-content hidden">
+                    <h3>🔹 Cycle : Collège (12-15 ans)</h3>
+
+                    <!-- Apports théoriques -->
+                    <div class="exercice">
+                        <h4>Apports théoriques</h4>
+                        <p><strong>Compétences travaillées</strong> :</p>
+                        <ul>
+                            <li><strong>C2.2</strong> : Gérer ses impulsions.</li>
+                            <li><strong>E2.2</strong> : Réguler ses émotions.</li>
+                            <li><strong>S2.1</strong> : S’affirmer par l’assertivité.</li>
+                            <li><strong>C2.3</strong> : Résoudre des problèmes.</li>
+                        </ul>
+                        <p><strong>Objectifs</strong> :</p>
+                        <ul>
+                            <li>Renforcer l’autocontrôle et la régulation émotionnelle.</li>
+                            <li>Développer l’affirmation de soi et la gestion des conflits.</li>
+                            <li>Apprendre à résoudre des problèmes complexes.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Activité 1 : Je me dis STOP -->
+                    <div class="exercice cognitive">
+                        <h4>1. Activité : "Je me dis STOP" (C2.2)</h4>
+                        <p><strong>Objectifs</strong> : Renforcer l’autocontrôle face aux impulsions.</p>
+                        <p><strong>Matériel</strong> : Vidéo du test du marshmallow, jeu de cartes "couleurs".</p>
+                        <p><strong>Durée</strong> : 30 min.</p>
+                        <p><strong>Déroulement</strong> (Tome II, p. 43) :</p>
+                        <ol>
+                            <li>Jeu "Quelle est la couleur de ce mot ?" (ex: "noir" écrit en rouge).</li>
+                            <li>Discussion : "Pourquoi est-ce difficile ? Comment résister à l’automatisme ?".</li>
+                            <li>Visionnage de la vidéo du test du marshmallow et débat.</li>
+                        </ol>
+                        <p><strong>Lien avec les CPS</strong> : <strong>C2.2</strong> (gestion des impulsions).</p>
+                    </div>
+
+                    <!-- Activité 2 : Mes personnes-ressources -->
+                    <div class="exercice cognitive">
+                        <h4>2. Activité : "Mes personnes-ressources" (C2.4)</h4>
+                        <p><strong>Objectifs</strong> : Identifier les personnes aidantes dans son entourage.</p>
+                        <p><strong>Matériel</strong> : Tableau à remplir (Tome II, p. 57).</p>
+                        <p><strong>Durée</strong> : 45 min.</p>
+                        <p><strong>Déroulement</strong> :</p>
+                        <ol>
+                            <li>Distribuer le tableau avec des situations problématiques (ex: "Si je me sens stressé").</li>
+                            <li>Les élèves notent 2-3 personnes-ressources pour chaque situation.</li>
+                            <li>Discussion collective : "Qui peut-on solliciter à l’école ? En dehors ?".</li>
+                        </ol>
+                        <p><strong>Lien avec les CPS</strong> : <strong>C2.4</strong> (demander de l’aide).</p>
+                    </div>
+
+                    <!-- Activité 3 : Gérer un conflit -->
+                    <div class="exercice sociale">
+                        <h4>3. Activité : "Gérer un conflit" (S2.2)</h4>
+                        <p><strong>Objectifs</strong> : Résoudre des conflits de façon constructive.</p>
+                        <p><strong>Matériel</strong> : Fiches avec étapes de résolution de conflit (Tome II, p. 200).</p>
+                        <p><strong>Durée</strong> : 1h.</p>
+                        <p><strong>Déroulement</strong> :</p>
+                        <ol>
+                            <li>Présenter les étapes : s’apaiser, observer, analyser, négocier.</li>
+                            <li>Jeu de rôle : un élève joue un conflit (ex: "Tu as pris mon stylo !"), l’autre utilise les étapes pour résoudre.</li>
+                            <li>Débat : "Quelles stratégies ont marché ? Pourquoi ?".</li>
+                        </ol>
+                        <p><strong>Lien avec les CPS</strong> : <strong>S2.2</strong> (résolution de conflits).</p>
+                    </div>
+
+                    <!-- Exercices en ligne pour collège -->
+                    <div class="exercice">
+                        <h4>💻 Exercices en ligne pour les élèves (Collège)</h4>
+
+                        <!-- Exercice 1 : QCM sur l'assertivité -->
+                        <div class="question">
+                            <p><strong>1/10</strong> Quelle phrase est un exemple de communication assertive ?</p>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectAnswer('college1', 'A')">A) "Tu es nul, arrête de m’embêter !"</div>
+                                <div class="quiz-option" onclick="selectAnswer('college1', 'B')">B) "Je me sens gêné quand tu me critiques devant tout le monde. J’aimerais qu’on en parle en privé."</div>
+                                <div class="quiz-option" onclick="selectAnswer('college1', 'C')">C) "D’accord, je vais faire ce que tu veux."</div>
+                            </div>
+                            <div id="college1-feedback" class="feedback hidden"></div>
+                        </div>
+
+                        <!-- Exercice 2 : Mise en situation -->
+                        <div class="question">
+                            <p><strong>2/10</strong> <em>Mise en situation</em> : Un ami te demande de tricher pour lui à un contrôle. Que fais-tu ?</p>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectAnswer('college2', 'A')">A) Je refuse clairement et explique pourquoi.</div>
+                                <div class="quiz-option" onclick="selectAnswer('college2', 'B')">B) Je le fais par peur qu’il ne m’aime plus.</div>
+                                <div class="quiz-option" onclick="selectAnswer('college2', 'C')">C) Je ris et change de sujet.</div>
+                            </div>
+                            <div id="college2-feedback" class="feedback hidden"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lycée -->
+                <div id="lycee" class="cycle-content hidden">
+                    <h3>🔹 Cycle : Lycée (16-18 ans)</h3>
+
+                    <!-- Apports théoriques -->
+                    <div class="exercice">
+                        <h4>Apports théoriques</h4>
+                        <p><strong>Compétences travaillées</strong> :</p>
+                        <ul>
+                            <li><strong>C2.1</strong> : Atteindre ses buts personnels.</li>
+                            <li><strong>E2.3</strong> : Gérer son stress.</li>
+                            <li><strong>S2.1</strong> : Résister à la pression sociale.</li>
+                            <li><strong>C2.3</strong> : Résoudre des problèmes complexes.</li>
+                        </ul>
+                        <p><strong>Objectifs</strong> :</p>
+                        <ul>
+                            <li>Préparer à l’autonomie et à la prise de décision.</li>
+                            <li>Gérer le stress lié aux examens et aux choix d’orientation.</li>
+                            <li>Développer la résilience face aux pressions sociales.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Activité 1 : Ma vie dans 10 ans -->
+                    <div class="exercice cognitive">
+                        <h4>1. Activité : "Ma vie dans 10 ans" (C1.3/C2.1)</h4>
+                        <p><strong>Objectifs</strong> : Visualiser ses buts concordants et valeurs.</p>
+                        <p><strong>Matériel</strong> : Feuilles, crayons, musique relaxante.</p>
+                        <p><strong>Durée</strong> : 1h.</p>
+                        <p><strong>Déroulement</strong> (Tome II, p. 61) :</p>
+                        <ol>
+                            <li>Guidance pour une visualisation : "Imagine ta vie dans 10 ans, où tu as accompli ce qui compte pour toi."</li>
+                            <li>Écriture ou dessin : "Quels buts as-tu atteints ? Quelles valeurs as-tu incarnées ?".</li>
+                            <li>Partage en groupe : "Quels pas concrets peux-tu faire cette année pour avancer ?".</li>
+                        </ol>
+                        <p><strong>Lien avec les CPS</strong> : <strong>C1.3</strong> (valeurs/buts) et <strong>C2.1</strong> (accomplissement).</p>
+                    </div>
+
+                    <!-- Activité 2 : Gérer son stress avant un examen -->
+                    <div class="exercice emotionnelle">
+                        <h4>2. Activité : "Gérer son stress avant un examen" (E2.3)</h4>
+                        <p><strong>Objectifs</strong> : Apprendre des techniques de régulation du stress.</p>
+                        <p><strong>Matériel</strong> : Fiche avec techniques (respiration, ancrage, défusion).</p>
+                        <p><strong>Durée</strong> : 45 min.</p>
+                        <p><strong>Déroulement</strong> :</p>
+                        <ol>
+                            <li>Discussion : "Quels sont vos signes de stress avant un examen ?".</li>
+                            <li>Pratique guidée :</li>
+                            <ul>
+                                <li>Respiration 4-7-8 (inspirer 4s, bloquer 7s, expirer 8s).</li>
+                                <li>Ancrage sensoriel (5-4-3-2-1 : 5 choses visibles, 4 tactiles, etc.).</li>
+                                <li>Défusion cognitive : "Je ne vais pas y arriver" → "J’ai la pensée que je n’y arriverai pas".</li>
+                            </ul>
+                            <li>Création d’une "boîte à outils anti-stress" personnelle.</li>
+                        </ol>
+                        <p><strong>Lien avec les CPS</strong> : <strong>E2.3</strong> (gestion du stress).</p>
+                    </div>
+
+                    <!-- Activité 3 : Résister à la pression sociale -->
+                    <div class="exercice sociale">
+                        <h4>3. Activité : "Résister à la pression sociale" (S2.1)</h4>
+                        <p><strong>Objectifs</strong> : Développer l’assertivité face aux influences négatives.</p>
+                        <p><strong>Matériel</strong> : Scénarios écrits (ex: "Un ami te propose de sécher un cours").</p>
+                        <p><strong>Durée</strong> : 1h.</p>
+                        <p><strong>Déroulement</strong> :</p>
+                        <ol>
+                            <li>Jeu de rôle : un élève joue la pression ("Allez, viens, tout le monde le fait !"), l’autre résiste avec assertivité.</li>
+                            <li>Techniques enseignées :</li>
+                            <ul>
+                                <li>Dire "non" clairement.</li>
+                                <li>Proposer une alternative ("On peut aller en étude ensemble à la place").</li>
+                                <li>Quitter la situation si nécessaire.</li>
+                            </ul>
+                            <li>Débat : "Quelles pressions rencontrez-vous ? Comment y faire face ?".</li>
+                        </ol>
+                        <p><strong>Lien avec les CPS</strong> : <strong>S2.1</strong> (assertivité).</p>
+                    </div>
+
+                    <!-- Exercices en ligne pour lycée -->
+                    <div class="exercice">
+                        <h4>💻 Exercices en ligne pour les élèves (Lycée)</h4>
+
+                        <!-- Exercice 1 : QCM sur les buts concordants -->
+                        <div class="question">
+                            <p><strong>1/10</strong> Quel est un exemple de <strong>but discordant</strong> ?</p>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectAnswer('lycee1', 'A')">A) Devenir médecin parce que tes parents le veulent.</div>
+                                <div class="quiz-option" onclick="selectAnswer('lycee1', 'B')">B) Apprendre la guitare pour ton plaisir.</div>
+                                <div class="quiz-option" onclick="selectAnswer('lycee1', 'C')">C) Voyager pour découvrir de nouvelles cultures.</div>
+                            </div>
+                            <div id="lycee1-feedback" class="feedback hidden"></div>
+                        </div>
+
+                        <!-- Exercice 2 : Phrases à trous -->
+                        <div class="question">
+                            <p><strong>2/10</strong> Complète la phrase :</p>
+                            <p>"Pour résister à la pression sociale, je peux utiliser la technique du ______ (ex: 'disque rayé', assertivité)."</p>
+                            <input type="text" id="lycee2" placeholder="Ex: disque rayé, message-je...">
+                            <button onclick="checkTexteTrous('lycee2', 'disque rayé')" class="btn">Vérifier</button>
+                            <div id="lycee2-feedback" class="feedback hidden"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>CPS Lab - Inspiré des référentiels de <a href="https://www.santepubliquefrance.fr/" target="_blank">Santé publique France</a> (2025-2026) et du site <a href="https://scholavie.fr/" target="_blank">ScholaVie</a>.</p>
+        </footer>
+    </div>
+
+    <!-- Scripts pour les interactions -->
+    <script>
+        // Afficher/masquer les cycles
+        function showCycle(cycle) {
+            document.querySelectorAll('.cycle-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            document.getElementById(cycle).classList.remove('hidden');
+        }
+
+        // Sélectionner une réponse (QCM)
+        function selectAnswer(questionId, answer) {
+            const options = document.querySelectorAll(`#${questionId} ~ .quiz-options .quiz-option`);
+            options.forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+            });
+            event.currentTarget.classList.add(answer === getCorrectAnswer(questionId) ? 'correct' : 'incorrect');
+            showFeedback(questionId, answer);
+        }
+
+        // Vérifier les réponses correctes
+        function getCorrectAnswer(questionId) {
+            const correctAnswers = {
+                'q1': 'B', 'q2': 'B', 'q3': 'B', 'q4': '5', 'q6': 'B', 'q7': 'B', 'q9': 'B',
+                'maternelle2': 'B', 'primaire1': 'B', 'college1': 'B', 'college2': 'A', 'lycee1': 'A', 'lycee2': 'disque rayé'
+            };
+            return correctAnswers[questionId] || '';
+        }
+
+        // Afficher le feedback
+        function showFeedback(questionId, answer) {
+            const feedbackDiv = document.getElementById(`${questionId}-feedback`);
+            if (feedbackDiv) {
+                feedbackDiv.classList.remove('hidden');
+                const isCorrect = answer === getCorrectAnswer(questionId);
+                feedbackDiv.innerHTML = isCorrect
+                    ? `<p>✅ <strong>Bonne réponse !</strong> ${getExplanation(questionId)}</p>`
+                    : `<p>❌ <strong>Essaie encore !</strong> ${getExplanation(questionId)}</p>`;
+            }
+        }
+
+        // Explications pour chaque question
+        function getExplanation(questionId) {
+            const explanations = {
+                'q1': "Porter attention à ses émotions permet de mieux les réguler (CPS E1.2).",
+                'q2': "Prendre une décision en écoutant son ressenti et en analysant les options est une approche constructive (CPS C1.4).",
+                'q3': "Exprimer ses idées tout en écoutant les autres favorise une communication efficace (CPS S1.1).",
+                'q6': "Demander des précisions montre une communication assertive et une volonté de comprendre (CPS S1.1).",
+                'q7': "Un besoin psychologique fondamental est inné et essentiel au bien-être (ex: reconnaissance, affiliation).",
+                'q9': "L’acceptation expérientielle consiste à accueillir ses pensées/émotions sans jugement (CPS C1.6).",
+                'maternelle2': "Parler de sa tristesse à un adulte aide à réguler ses émotions (CPS E1.2).",
+                'primaire1': "Jouer avec ses amis satisfait le besoin d’affiliation sociale (CPS cognitive).",
+                'college1': "La phrase B exprime un besoin et une limite de façon claire et respectueuse (CPS S2.1).",
+                'college2': "Refuser clairement tout en expliquant ses valeurs est une réponse assertive (CPS S2.1).",
+                'lycee1': "Un but discordant est imposé par l’extérieur et ne correspond pas à tes valeurs (CPS C1.3).",
+            };
+            return explanations[questionId] || "";
+        }
+
+        // Évaluer le quiz complet
+        function evaluerCPS() {
+            const resultatTexte = document.getElementById('resultat-texte');
+            const conseils = document.getElementById('conseils');
+            const feedbackDetaille = document.getElementById('feedback-detaille');
+            let score = 0;
+            let feedback = "<h4>📋 Feedback détaillé :</h4>";
+
+            // Vérifier chaque question
+            for (let i = 1; i <= 15; i++) {
+                const questionId = `q${i}`;
+                const element = document.getElementById(questionId);
+                if (element) {
+                    const answer = element.value || (document.querySelector(`#${questionId}:checked`) || {}).value;
+                    if (answer === getCorrectAnswer(questionId)) score++;
+                    feedback += `<p><strong>Q${i}:</strong> ${answer ? answer : "Non répondue"} ${answer === getCorrectAnswer(questionId) ? "✅" : "❌"}</p>`;
+                }
+            }
+
+            // Calculer le score
+            const percentage = Math.round((score / 15) * 100);
+            let resultat = "";
+            let conseilsTexte = "";
+
+            if (percentage >= 80) {
+                resultat = `🌟 <strong>Excellent !</strong> Tu maîtrises bien tes CPS (${score}/15).`;
+                conseilsTexte = "Continue à pratiquer la défusion cognitive et la résolution de problèmes pour renforcer encore tes compétences !";
+            } else if (percentage >= 50) {
+                resultat = `💡 <strong>Bon début !</strong> Tu as ${score}/15. Voici tes axes de progression :`;
+                conseilsTexte = "Travaille particulièrement l’<strong>identification des émotions (E1.2)</strong> et la <strong>prise de décision constructive (C1.4)</strong>.";
+            } else {
+                resultat = `📚 <strong>Tu as des bases à renforcer.</strong> Score : ${score}/15.`;
+                conseilsTexte = "Commence par les exercices sur la <strong>connaissance de soi (C1.1)</strong> et la <strong>gestion des impulsions (C2.2)</strong>.";
+            }
+
+            // Afficher les résultats
+            resultatTexte.innerHTML = resultat;
+            conseils.innerHTML = conseilsTexte;
+            feedbackDetaille.innerHTML = feedback;
+            document.getElementById('resultat-quiz').style.display = "block";
+        }
+
+        // Défusion cognitive
+        function defusionner() {
+            const pensee = document.getElementById('pensee-negative').value;
+            if (!pensee.trim()) {
+                alert("Écris d’abord une pensée !");
+                return;
+            }
+            const reformulee = `<strong>Ta pensée défusionnée :</strong> "J’ai la pensée que ${pensee}"`;
+            document.getElementById('pensee-reformulee').innerHTML = reformulee + "<br><br><strong>Explication :</strong> En reformulant ainsi, tu prends de la distance avec ta pensée et évites de la confondre avec la réalité (CPS C1.2).";
+            document.getElementById('pensee-reformulee').style.display = "block";
+        }
+
+        // Analyser la démarche AADA
+        function analyserAADA() {
+            const attention = document.getElementById('aada-attention').value;
+            const analyse = document.getElementById('aada-analyse').value;
+            const decision = document.getElementById('aada-decision').value;
+            const action = document.getElementById('aada-action').value;
+
+            if (!attention || !analyse || !decision || !action) {
+                alert("Remplis tous les champs !");
+                return;
+            }
+
+            let feedback = "<h4>📋 Feedback sur ta démarche AADA :</h4>";
+            feedback += `<p><strong>1. Attention :</strong> ${attention}</p>`;
+            feedback += `<p><strong>2. Analyse :</strong> ${analyse} ➡️ <em>As-tu listé plusieurs solutions ?</em></p>`;
+            feedback += `<p><strong>3. Décision :</strong> ${decision} ➡️ <em>Ta solution est-elle réaliste et alignée avec tes valeurs ?</em></p>`;
+            feedback += `<p><strong>4. Action :</strong> ${action} ➡️ <em>As-tu prévu un plan concret ?</em></p>`;
+            feedback += "<p><strong>💡 Conseils :</strong> Pour améliorer ta démarche, assure-toi que chaque étape est <strong>précise</strong> et <strong>ancrée dans tes besoins</strong> (CPS C2.3).</p>";
+
+            document.getElementById('aada-feedback').innerHTML = feedback;
+            document.getElementById('aada-feedback').style.display = "block";
+        }
+
+        // Vérifier l'ordre des éléments (glisser-déposer)
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev, targetId) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text");
+            const draggedElement = document.getElementById(data);
+            ev.target.appendChild(draggedElement);
+        }
+
+        function checkOrder(questionId) {
+            const dropZone = document.getElementById(`${questionId}-drop`);
+            const answerZone = document.getElementById(`${questionId}-answer`);
+            const items = dropZone.querySelectorAll('.drag-item');
+            const correctOrder = Array.from(answerZone.querySelectorAll('.drag-item')).map(item => item.textContent);
+            const userOrder = Array.from(items).map(item => item.textContent);
+
+            let isCorrect = true;
+            for (let i = 0; i < correctOrder.length; i++) {
+                if (userOrder[i] !== correctOrder[i]) {
+                    isCorrect = false;
+                    break;
+                }
+            }
+
+            const feedbackDiv = document.getElementById(`${questionId}-feedback`);
+            feedbackDiv.classList.remove('hidden');
+            feedbackDiv.innerHTML = isCorrect
+                ? `<p>✅ <strong>Bravo !</strong> L’ordre est correct : ${correctOrder.join(" → ")}.</p>`
+                : `<p>❌ <strong>Essaie encore !</strong> L’ordre correct est : ${correctOrder.join(" → ")}.</p>`;
+        }
+
+        // Vérifier les émotions (glisser-déposer)
+        function checkEmotions() {
+            const joie = document.getElementById('emotion-joie').textContent;
+            const tristesse = document.getElementById('emotion-tristesse').textContent;
+            const colere = document.getElementById('emotion-colere').textContent;
+
+            const feedbackDiv = document.getElementById('emotion-feedback');
+            feedbackDiv.classList.remove('hidden');
+
+            if (joie.includes('😊') && tristesse.includes('😢') && colere.includes('😠')) {
+                feedbackDiv.innerHTML = `<p>✅ <strong>Parfait !</strong> Tu as bien associé chaque émotion à son visage.</p>`;
+            } else {
+                feedbackDiv.innerHTML = `<p>❌ <strong>Presque !</strong> Voici les bonnes associations :</p>
+                    <p>Joie = 😊, Tristesse = 😢, Colère = 😠</p>`;
+            }
+        }
+
+        // Vérifier les textes à trous
+        function checkTexteTrous(inputId, correctAnswer) {
+            const userAnswer = document.getElementById(inputId).value.toLowerCase();
+            const feedbackDiv = document.getElementById(`${inputId}-feedback`);
+            feedbackDiv.classList.remove('hidden');
+
+            if (userAnswer.includes(correctAnswer)) {
+                feedbackDiv.innerHTML = `<p>✅ <strong>Exact !</strong> "${correctAnswer}" est une bonne réponse.</p>`;
+            } else {
+                feedbackDiv.innerHTML = `<p>❌ <strong>Presque !</strong> Une réponse possible était : "${correctAnswer}".</p>`;
+            }
+        }
+
+        // Afficher le feedback pour les questions simples
+        function showSimpleFeedback(questionId, answer) {
+            const feedbackDiv = document.getElementById(`${questionId}-feedback`);
+            feedbackDiv.classList.remove('hidden');
+            const isCorrect = answer === getCorrectAnswer(questionId);
+            feedbackDiv.innerHTML = isCorrect
+                ? `<p>✅ <strong>Bonne réponse !</strong> ${getExplanation(questionId)}</p>`
+                : `<p>❌ <strong>Essaie encore !</strong> ${getExplanation(questionId)}</p>`;
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            showCycle('maternelle'); // Afficher la maternelle par défaut
+        });
+    </script>
+</body>
+</html>
